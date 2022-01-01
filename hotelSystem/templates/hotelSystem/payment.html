@@ -1,0 +1,69 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+    <script src="{% static 'hotelSystem/js/commaNumbers.js' %}"></script> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="{% static 'hotelSystem/css/payments.css' %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <br>
+    <div class="cardContainer">
+        <div class="row">
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-blue order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Total Reservations</h6>
+                        <h2 class="text-right"><i class="fa fa-hotel f-left"></i><span>{{num_of_reservations}}</span></h2>
+                        <p id="cardfooter" id="cardfooter" class="m-b-0">Vacant Rooms: <span class="f-right"> {{vacant_rooms}}</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-green order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Total Check-ins</h6>
+                        <h2 class="text-right"><i class="fa fa-door-open f-left"></i><span>{{num_of_check_ins}}</span></h2>
+                        <p id="cardfooter" class="m-b-0"><span class="f-right"></span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-yellow order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Last Check-in</h6>
+                        <h5 class="text-right">
+                            <i class="fa fa-clipboard-list"></i>
+                            <span>
+                                {% if last_checked_in %}
+                                    <a class="lastLink" href="{% url 'checkin_view' last_checked_in.id %}">{{last_checked_in}}</a>
+                                {% else %}
+                                    None
+                                {% endif %}
+                            </span>
+                        </h2>
+                        <p id="cardfooter" class="m-b-0">Date of Check In: <span class="f-right">{{last_checked_in.check_in_date_time}}</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-xl-3">
+                <div class="card bg-c-pink order-card">
+                    <div class="card-block">
+                        <h6 class="m-b-20">Total Income</h6>
+                        <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span class="money">₱ {{total_income}}</span></h2>
+                        <p id="cardfooter" class="m-b-0">Total Check-Outs: <span class="f-right">{{num_of_check_outs}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

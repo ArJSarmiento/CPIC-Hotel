@@ -1,0 +1,53 @@
+.available{
+    color: rgb(25,167,118);
+}
+
+.available img{
+    height: auto;
+    width: 20px;
+}
+
+.unavailable{
+    color: rgb(212,56,50);
+}
+
+.unavailable img{
+    height: auto;
+    width: 20px;
+}
+
+.filterBtn{
+    color: var(--thirdcolor);
+    border: 1px solid var(--thirdcolor);
+    border-radius: 15px;
+    display: block;
+    margin: 15px 0;
+    padding: 10px 30px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 1;
+    visibility: visible;
+    transition: all .3s ease;
+    text-align: center;
+    min-width: 98px;
+}
+
+.filterBtn:hover{
+    transition: all .3s ease;
+    background-color: var(--thirdcolor);
+    color: var(--light);
+}
+
+.filter{
+
+}
+
+.filterCont{
+    
+    display: flex;
+        
+    gap: 20px;
+        
+    width: 100%;
+}

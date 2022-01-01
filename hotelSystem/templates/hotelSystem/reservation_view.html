@@ -1,0 +1,80 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+  <script src="{% static 'hotelSystem/js/modalRedirect.js' %}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <br>
+
+    <div class="modal-container" id="modal-opened">
+      <form class="modal"  action="{% url 'checkin'%}" method="post">
+        {% csrf_token %} 
+        <div class="modal__details">
+          <h1 class="modal__title">Confirm Check-in</h1>
+        </div>
+        <p class="modal__text">
+          Are you sure you want to check in this guest?
+        </p>
+  
+        <input type="hidden" class="modalhidden" name="reservation_id" value="">
+        <input class="modal_btn" type="submit" value="Confirm &rarr;">
+        <a href="#modal-closed" class="link-2"></a>
+      </form>
+    </div>
+
+    <div class="reserveTable">
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Customer</div>
+          <div class="col col-2">Staff</div>
+          <div class="col col-3">No of Children</div>
+          <div class="col col-4">No of Adults</div>
+          <div class="col col-5">Reservation Date</div>
+          <div class="col col-6">Expected Arrival</div>
+          <div class="col col-7">Expected Departure</div>
+          <div class="col col-8">Reserved Rooms</div>
+          <div class="col col-9">Check In?</div>
+        </li>
+        
+        <li class="table-row">
+          <a  class="col col-1" data-label="Customer" href="{% url 'customer_view' r.customer.customer_id %}">
+            {{r.customer.first_name}} {{r.customer.last_name}}
+          </a>
+          <div class="col col-2" data-label="Staff">{{r.staff}}</div>
+          <div class="col col-3" data-label="No of Children">{{r.no_of_children}}</div>
+          <div class="col col-4" data-label="No of Adults">{{r.no_of_adults}}</div>
+          <div class="col col-5" data-label="Reservation Date">{{r.reservation_date_time}}</div>
+          <div class="col col-6" data-label="Expected Arrival">{{r.expected_arrival_date_time}}</div>
+          <div class="col col-7" data-label="Expected Departure">{{r.expected_departure_date_time}}</div>
+          <div class="col col-8" data-label="Reserved Rooms">
+            {% if rooms %}
+              {% for room in rooms %}
+                {% if r.reservation_id == room.reservation.reservation_id %}
+                  <span class="comma">
+                    {{room}}
+                  </span>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <span>
+                Checked Out
+              </span>
+            {% endif %}    
+          </div>
+          <a class="col col-9 checkInBtn" id="modal-closed" data-id="{{r.reservation_id}}" data-path="checkin" data-label="Check In?" href="#modal-opened">
+            <span>
+              Check In
+            </span> 
+          </a>
+        </li>   
+      </ul>
+    </div>
+{% endblock %}

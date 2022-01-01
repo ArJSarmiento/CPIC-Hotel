@@ -1,0 +1,72 @@
+{% extends "hotelSystem/layout.html" %} 
+
+    {% block title %} 
+    {{ title }} 
+    {% endblock %} 
+
+{% block body %}
+
+    <h1>Dashboard</h1>
+    <br>
+    <div class="wrap_grid">
+        <a class="container" href="{% url 'rooms' %}">
+            <div class="post">
+                <div class="header_post">
+                    <img src="../static/hotelSystem/img/room.jpeg" alt="" />
+                </div>
+
+                <div class="body_post">
+                    <div class="post_content">
+                        <h1>Total Rooms: {{ total_num_rooms }}</h1>
+                        <p>
+                            Available Rooms: {{ available_num_rooms }}
+                        </p>                        
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a class="container" href="{% url 'reservations' %}">
+            <div class="post">
+                <div class="header_post">
+                    <img src="../static/hotelSystem/img/reception.jpeg" alt="" />
+                </div>
+
+                <div class="body_post">
+                    <div class="post_content">
+                        <h1>Total Reservations: {{ total_num_reservations }}</h1>
+                        <p>
+                            Total Check-ins: {{total_check_in}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a class="container" href="{% url 'customers' %}">
+            <div class="post">
+                <div class="header_post">
+                    <img src="../static/hotelSystem/img/staffBg.jpeg" alt="" />
+                </div>
+
+                <div class="body_post">
+                    <div class="post_content">
+                        <h1>Total Staffs: {{ total_num_staffs }}</h1>
+                        <p>
+                            Total Customers: {{ total_num_customers }}
+                        </p>
+                        {% if last_reserved_by %}
+                            <p>
+                                Last Reservation: {{ last_reserved_by.customer.first_name }} {{ last_reserved_by.customer.last_name }}
+                            </p>
+                            <p>
+                                Last Check-in by: {{last_reserved_by.staff.first_name}} {{last_reserved_by.staff.last_name}}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+  </div>
+  
+{% endblock %}

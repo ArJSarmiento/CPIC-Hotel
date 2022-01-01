@@ -1,0 +1,45 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %} 
+    {% if isSuccess%}
+        Reservation Success!
+    {% else %}
+        Fully Booked
+    {% endif %}
+{% endblock %} 
+
+{% block additional-static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="{% static 'hotelSystem/css/reserve_success.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="alertContainer">
+        {% if isSuccess%}
+           <div class="alertSuccess">
+               <img src="{% static 'hotelSystem/img/success.png' %}" alt="Success">
+               <div class="texts">
+                   <h1>Reservation Success!</h1>
+                   <p>The reservation has been made.</p>
+                   <p>Thank you for choosing CPIC Hotel.</p>
+               </div>
+
+               <a class="alertBtn" href="{% url 'reservations_view' reservation.reservation_id %}">
+                    View Reservation
+               </a>
+           </div>
+        {% else %}
+           <div class="error">
+                <img src="{% static 'hotelSystem/img/error.png' %}" alt="Error">
+                <div class="texts">
+                    <h1>Fully Booked!</h1>
+                    <p>All rooms have been reserved at this time.</p>
+                    <p>Please try again later.</p>
+                </div>
+                <a class="alertBtn" href="{% url 'index' %}">
+                    Return to Home
+                </a>
+           </div>
+        {% endif %}
+    </div>
+{% endblock %}

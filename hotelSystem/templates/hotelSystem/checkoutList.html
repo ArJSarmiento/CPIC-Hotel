@@ -1,0 +1,47 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% load custom_tags %}
+{% block title %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+  <script src="{% static 'hotelSystem/js/commaNumbers.js' %}"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+  <h1>{{title}}</h1>
+  <br>
+  
+  <div class="reserveTable">
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">Check-Out ID</div>
+        <div class="col col-2">Related Check-in</div>
+        <div class="col col-3">Stay Duration</div>
+        <div class="col col-4">Total Amount</div>
+        <div class="col col-5">Pay Amount</div>
+        <div class="col col-6">Check-Out Date Time</div>
+      </li>
+      {% for c in checkOuts %}
+          <li class="table-row">
+              <a class="col col-1" data-label="Check-Out ID" href="{% url 'checkout_view' c.id %}">
+                {{c.id}}
+              </a>
+              <a class="col col-2" data-label="Related Check-in" href="{% url 'checkin_view' c.check_in.id %}" >
+                {{c.check_in}}
+              </a>
+              <div class="col col-3" data-label="Stay Duration">
+                {{c.stay_duration|duration}}
+              </div>
+              <div class="col col-4 money" data-label="Total Amount">{{c.total_amount}}</div>
+              <div class="col col-5 money" data-label="Pay Amount">{{c.pay_amount}}</div>
+              <div class="col col-6" data-label="Check-Out Date Time">{{c.check_out_date_time}}</div>
+          </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

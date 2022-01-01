@@ -1,0 +1,24 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %} 
+   {{ title }}    
+{% endblock %} 
+
+{% block additional-static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="{% static 'hotelSystem/css/reserve_success.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="alertContainer">
+        <div class="error">
+            <img src="{% static 'hotelSystem/img/error.png' %}" alt="Error">
+            <div class="texts">
+                <h1>{{message}}</h1>
+            </div>
+            <a class="alertBtn" href="{% url 'index' %}">
+                Return to Home
+            </a>
+        </div>
+    </div>
+{% endblock %}

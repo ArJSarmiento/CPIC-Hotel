@@ -1,0 +1,54 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% load custom_tags %}
+{% block title %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+  <script src="{% static 'hotelSystem/js/commaNumbers.js' %}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <br>
+    <div class="reserveTable">
+      <ul class="responsive-table">
+        <li class="table-header">
+            <div class="col col-1">Check-In</div>
+            <div class="col col-2">Check-In Date Time</div>
+            <div class="col col-3">Check-Out Date Time</div>
+            <div class="col col-4">Stay Duration</div>
+            <div class="col col-5">Rooms</div>
+            <div class="col col-6">Total Amount</div>
+            <div class="col col-7">Initial Payment</div> 
+            <div class="col col-8">Payment Amount</div>
+            <div class="col col-9">Checked Out By</div>
+        </li>
+        
+        <li class="table-row">
+            <a  class="col col-1" data-label="Check-In" href="{% url 'checkin_view' my_checkout.check_in.id %}">
+                {{my_checkout.check_in}} 
+            </a>
+            <div class="col col-2" data-label="Check-In Date Time">
+                {{my_checkout.check_in.check_in_date_time}} 
+            </div>
+            <div class="col col-3" data-label="Check-Out Date Time">
+                {{my_checkout.check_out_date_time}}  
+            </div>
+            <div class="col col-4" data-label="Stay Duration">{{my_checkout.stay_duration|duration}}</div>
+            <div class="col col-5" data-label="Rooms">
+                {% for room in my_checkout.check_in.rooms.all %}
+                    <span class="comma">Room no. {{room.room_no}}</span>   
+                {% endfor %}
+            </div>
+            <div class="col col-6 money" data-label="Total Amount">{{my_checkout.total_amount}}</div>
+            <div class="col col-7 money" data-label="Initial Payment">{{my_checkout.check_in.initial_amount}}</div>
+            <div class="col col-8 money" data-label="Payment Amount">{{my_checkout.pay_amount}}</div>
+            <div class="col col-9" data-label="Checked Out By">{{my_checkout.user}}</div>
+        </li>
+      </ul>
+    </div>
+{% endblock %}

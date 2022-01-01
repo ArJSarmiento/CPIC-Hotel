@@ -1,0 +1,54 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+    <link href="{% static 'hotelSystem/css/customers.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>Guests</h1>
+    <br>
+    <main class="leaderboard__profiles">
+        {% for c in reservations %}
+            <a href="{% url 'customer_view' c.customer_id %}">
+                <article class="leaderboard__profile">
+                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}"  class="leaderboard__picture">
+                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    <span id="reserved" class="leaderboard__value">Reserved<span></span></span>
+                </article>
+            </a>
+        {% endfor %}     
+
+        {% for c in checked_in %}
+        <a href="{% url 'customer_view' c.customer_id %}">
+            <article class="leaderboard__profile">
+                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    <span id="checked_in" class="leaderboard__value">Checked In<span></span></span>
+                </article>
+            </a>
+        {% endfor %}
+
+        {% for c in checked_out %}
+            <a href="{% url 'customer_view' c.customer_id %}">
+                <article class="leaderboard__profile">
+                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    <span id="checked_out" class="leaderboard__value">Checked Out<span></span></span>
+                </article>
+            </a>
+        {% endfor %}
+        {% for c in no_reservations %}
+            <a href="{% url 'customer_view' c.customer_id %}">
+                <article class="leaderboard__profile">
+                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    <span id="not-reserved" class="leaderboard__value">Not Reserved<span></span></span>
+                </article>
+            </a>
+        {% endfor %}
+    </main>
+{% endblock %}
