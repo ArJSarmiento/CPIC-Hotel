@@ -78,7 +78,13 @@ h1{
         bottom: 10px;
     }
 
-    .texts{position: static;padding: 0px;width: 100%;text-align: center;padding-top: 13px;}
+    .texts{
+        position: static;
+        padding: 0px;
+        width: 100%;
+        text-align: center;
+        padding-top: 13px;
+    }
 
     .alertContainer div img{
         width: 50%;

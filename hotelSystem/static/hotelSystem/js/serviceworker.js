@@ -1,45 +1,49 @@
-// Base Service Worker implementation. To use your own Service Worker, set the PWA_SERVICE_WORKER_PATH variable in settings.py
 var staticCacheName = "django-pwa-v" + new Date().getTime();
+var filesToCache = [
+    '/static/hotelSystem/css/styles.css',
+    '/static/hotelSystem/css/reserve_success.css',
+    '/static/hotelSystem/img/CPIC.png',
+    '/static/hotelSystem/img/error.png',
+    '/offline',
+    '/static/hotelSystem/fonts/Lato-Regular.ttf',
+    '/static/hotelSystem/fonts/Poppins-Bold.ttf',
+];
+
 // Cache on install
-self.addEventListener("install", (event) => {
-    console.log("ServiceWorker Installed");
+self.addEventListener("install", event => {
+    this.skipWaiting();
+    event.waitUntil(
+        caches.open(staticCacheName)
+            .then(cache => {
+                return cache.addAll(filesToCache);
+            })
+            .catch(err => console.log(err))
+    )
 });
 
 // Clear cache on activate
-self.addEventListener("activate", (event) => {
-    console.log("ServiceWorker Activated");
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then((cacheNames) => Promise.all(
-            cacheNames.map((cache) => {
-                if (cache !== staticCacheName) {
-                    console.log("ServiceWorker Removing Cached Files from Cache - ", cache);
-                    return caches.delete(cache);
-                }
-            })
-        ))
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith("django-pwa-")))
+                    .filter(cacheName => (cacheName !== staticCacheName))
+                    .map(cacheName => caches.delete(cacheName))
+            );
+        })
     );
 });
 
 // Serve from Cache
-self.addEventListener("fetch", (event) => {
-    console.log("ServiceWorker Fetching");
+self.addEventListener("fetch", event => {
     event.respondWith(
-        fetch(event.request)
-        .then((response) =>{
-            const data = response.clone();
-            caches
-                .open(staticCacheName)
-                .then((cache) => {
-                    cache.put(event.request, data);
-                })
-            return response;
-        })
-        .catch(
-            error => {
-                console.log("ServiceWorker Network Request Failed. Serving from Cache - ", error);
-                caches.match(event.request)
-                .then(response => response)
-            }
-        )
+        caches.match(event.request, { ignoreSearch: true })
+            .then(response => {
+                return response || fetch(event.request);
+            })
+            .catch(() => {
+                return caches.match('offline');
+            })
     )
 });

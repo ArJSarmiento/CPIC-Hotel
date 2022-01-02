@@ -41,6 +41,9 @@ def index(request):
 
     return render(request, "hotelSystem/index.html", data)
 
+def offline(request):
+    return render(request, "hotelSystem/offline.html")
+
 @login_required(login_url='login')
 def reserve(request):
     title = "Add Reservation"

@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load pwa %}
+    <head>
+    {% progressive_web_app_meta %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <script type="text/javascript" src="{% static 'hotelSystem/js/script.js' %}"></script>
+    
+    <title>{% block title %}{% endblock %}</title>
+        
+    <style>
+        @font-face {
+            font-family: 'Poppins';
+            src: url('../static/hotelSystem/fonts/Poppins-Bold.ttf');
+        }
+        @font-face {
+            font-family: 'Lato';
+            src: url('../static/hotelSystem/fonts/Lato-Regular.ttf');
+        }
+        :root {
+            --myDark: #212121;
+            --light: #fdfdfd;
+            --lightgrey:#ececec;
+            --thirdcolor:#0A66C2;
+            --font-header:'Poppins';
+            --font-text: 'Lato';
+          }
+    </style>
+    <base href="/">
+    <link rel="stylesheet" href='../static/hotelSystem/css/styles.css'>
+    <link rel="stylesheet" href='../static/hotelSystem/css/reserve_success.css'>
+    <link rel="icon" href='/static/hotelSystem/img/CPIC.png'>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="page">
+        <header tabindex="1">
+            <h2>
+                CPIC Hotel
+            </h2>
+        </header>
+
+        {% if user.is_authenticated %}
+        <div id="nav-container">
+            <div class="bg"></div>
+            <div id="nav-content" tabindex="0">
+                <ul>
+                    <li><a href="{% url 'index' %}">Dashboard</a></li>
+                    <li><a href="{% url 'customers' %}">Guests</a></li>
+                    <li><a href="{% url 'rooms' %}">Rooms</a></li>
+                    <li><a href="{% url 'payments' %}">Payments</a></li>
+                    <br>
+                    <li><a href="{% url 'reserve' %}">Reserve</a></li>
+                    <br>
+                    <li><a href="{% url 'reservations' %}">Reservations</a></li>
+                    <li><a href="{% url 'checkins' %}">Check-ins</a></li>
+                    <li><a href="{% url 'checkouts' %}">Check-outs</a></li>
+                    <br>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        <main>
+            <div class="alertContainer">
+                <div class="error">
+                    <img src="../static/hotelSystem/img/error.png" alt="Error">
+                    <div class="texts">
+                        <h1>Offline</h1>
+                        <p> Your network is Unavailable. Please check your data of wifi connection.</p>
+                    </div>  
+                    <a class="alertBtn" href="{% url 'index' %}">
+                        RETRY
+                    </a>           
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

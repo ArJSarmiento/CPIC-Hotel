@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("offline", views.offline, name="offline"),
     path("reserve", views.reserve, name="reserve"),
     path("reservations", views.reservations, name="reservations"),
     path("reservations/<int:reservationID>", views.reservations_view, name="reservations_view"),

@@ -61,10 +61,12 @@
 }
 
 .form-structor .signup.slide-up .form-title span {
-    margin-right: 5px;
+    margin-left: 5px;
     opacity: 1;
     visibility: visible;
     transition: all .3s ease;
+    display:inline-block;
+    color: var(--light);
 }
 
 .form-structor .signup .form-title {
@@ -72,6 +74,7 @@
     font-size: 1.7em;
     text-align: center;
     font-weight: bolder;
+    margin:0px !important;
 }
 
 .form-structor .signup .form-title span {
@@ -79,6 +82,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease;
+    display:none;
 }
 
 .form-structor .signup .form-holder {
@@ -175,6 +179,7 @@
     font-size: 1.7em;
     text-align: center;
     font-weight: bolder;
+    margin: 0px !important;
 }
 
 .form-structor .login .center .form-title span {
@@ -182,6 +187,7 @@
     opacity: 0;
     visibility: hidden;
     transition: all .3s ease;
+    display: none;
 }
 
 .form-structor .login .center .form-holder {
@@ -278,7 +284,8 @@ main h1 {
     margin-right: 5px;
     opacity: 1;
     visibility: visible;
-  transition: all .3s ease;
+    transition: all .3s ease;
+    display: inline-block;
 }
 
 .form-structor .login .center .submit-btn:disabled:hover, .form-structor .login .center .submit-btn:disabled{
@@ -300,4 +307,19 @@ select {
     padding: 0px;
     color: rgba(0, 0, 0, 0.75);
     margin-left: -3px;
+}
+
+#signup:focus, #login:focus {
+    text-decoration: none;
+    outline: none !important;
+}
+
+#signup, #login{
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
