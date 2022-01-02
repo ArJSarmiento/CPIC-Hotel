@@ -12,7 +12,7 @@ class User(AbstractUser):
         ('O', 'Others',),
     )
     sex = models.CharField(
-        max_length=1,
+        max_length=20,
         choices=SEX_CHOICES,
         default=SEX_CHOICES[0][1]
     )
@@ -34,7 +34,7 @@ class Customer(models.Model):
         ('O', 'Others',),
     )
     sex = models.CharField(
-        max_length=1,
+        max_length=20,
         choices=SEX_CHOICES,
         default=SEX_CHOICES[0][1]
     )
