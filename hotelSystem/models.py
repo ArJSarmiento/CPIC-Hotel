@@ -4,7 +4,6 @@ import datetime
 from django.urls import reverse
 
 class User(AbstractUser):
-    profile_picture = models.ImageField(upload_to='staff_img/', default='images/staff.png')
     isAdmin = models.BooleanField(default=False)
     SEX_CHOICES = (
         ('M', 'Male',),
