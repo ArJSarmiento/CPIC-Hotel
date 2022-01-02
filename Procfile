@@ -1,1 +1,1 @@
-web: gunicorn hotel-cpic.wsgi
+web: gunicorn project4.wsgi
