@@ -84,7 +84,6 @@ def reserve(request):
                     'isSuccess': isSuccess
                 }
             )
-
     else:
         reservation_form = ReservationForm()
     

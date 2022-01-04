@@ -26,7 +26,7 @@ SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['hotel-cpic.herokuapp.com', '198.211.99.20', 'localhost', '127.0.0.1',] 
+ALLOWED_HOSTS = ['cpic-hotel.herokuapp.com', '198.211.99.20', 'localhost', '127.0.0.1',] 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Application definition

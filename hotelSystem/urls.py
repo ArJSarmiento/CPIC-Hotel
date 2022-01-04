@@ -22,12 +22,6 @@ urlpatterns = [
     path("roomsVacant", views.roomListVacant, name="roomsVacant"),
     path("rooms/<int:roomID>", views.room_view, name="room_view"),
     path("payments", views.payments, name="payments"),
-    # path('serviceworker', 
-    #     (TemplateView.as_view(
-    #         template_name="serviceworker.js", 
-    #         content_type='application/javascript',
-    #     )), 
-    #     name='serviceworker'),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register")
