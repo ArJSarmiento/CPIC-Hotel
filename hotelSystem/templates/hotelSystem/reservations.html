@@ -1,5 +1,6 @@
 {% extends "hotelSystem/layout.html" %} 
 {% load static %}
+{% load custom_tags %}
 {% block title %} 
 {{ title }} 
 {% endblock %} 
@@ -39,7 +40,9 @@
           <div class="col col-4">No of Adults</div>
           <div class="col col-5">Rooms</div>
           <div class="col col-6">Reservation Date Time</div>
-          <div class="col col-7">Check In?</div>
+          {% if request.user|has_group:"Staff" %} 
+            <div class="col col-7">Check In?</div>
+          {% endif %}
         </li>
         {% for r in reservations %}
         
@@ -70,24 +73,25 @@
             </div>
 
             <div class="col col-6" data-label="Reservation Date Time">{{r.reservation_date_time}}</div>
-           
-            {% if r in checkInR %}
-              {% for c in checkIns %}
-                {% if r.reservation_id == c.reservation.reservation_id %}
-                  <a class="col col-7 checkInBtn" id="" data-label="Check In?" href="{% url 'checkin_view' c.id %}">
-                    <span>
-                      Details
-                    </span>
-                  </a>
-                {% endif %}
-              {% endfor %}
-            {% else %}
-              <a class="col col-7 checkInBtn" id="modal-closed" data-id="{{r.reservation_id}}" data-path="checkin" data-label="Check In?" href="#modal-opened">
-                <span>
-                  Check In
-                </span> 
-              </a>
-            {% endif %} 
+            {% if request.user|has_group:"Staff" %} 
+              {% if r in checkInR %}
+                {% for c in checkIns %}
+                  {% if r.reservation_id == c.reservation.reservation_id %}
+                    <a class="col col-7 checkInBtn" id="" data-label="Check In?" href="{% url 'checkin_view' c.id %}">
+                      <span>
+                        Details
+                      </span>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <a class="col col-7 checkInBtn" id="modal-closed" data-id="{{r.reservation_id}}" data-path="checkin" data-label="Check In?" href="#modal-opened">
+                  <span>
+                    Check In
+                  </span> 
+                </a>
+              {% endif %} 
+            {% endif %}
           </li>
         {% endfor %}
       </ul>

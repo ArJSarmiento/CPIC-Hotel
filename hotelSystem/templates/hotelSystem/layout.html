@@ -3,6 +3,7 @@
 <html lang="en">
     {% load static %}
     {% load pwa %}
+    {% load custom_tags %}
     <head>
     {% progressive_web_app_meta %}
     <meta charset="UTF-8" />
@@ -20,7 +21,7 @@
 
     <meta name="google-site-verification" content="uGL2QJWFkQOuE4tTphFQK3T22IAkXbDjTzULH6TzbVQ" />
     <meta name="msvalidate.01" content="2751098384C18FDBDC12FB95F05B7DAF" />
-    
+
     <script type="text/javascript" src="{% static 'hotelSystem/js/script.js' %}"></script>
     
     <title>{% block title %}{% endblock %}</title>
@@ -84,11 +85,15 @@
             <div id="nav-content" tabindex="0">
                 <ul>
                     <li><a href="{% url 'index' %}">Dashboard</a></li>
+                    {% if request.user|has_group:"Staff" %} 
                     <li><a href="{% url 'customers' %}">Guests</a></li>
+                    {% endif %}
                     <li><a href="{% url 'rooms' %}">Rooms</a></li>
+                    {% if request.user|has_group:"Staff" %} 
                     <li><a href="{% url 'payments' %}">Payments</a></li>
                     <br>
                     <li><a href="{% url 'reserve' %}">Reserve</a></li>
+                    {% endif %}
                     <br>
                     <li><a href="{% url 'reservations' %}">Reservations</a></li>
                     <li><a href="{% url 'checkins' %}">Check-ins</a></li>

@@ -1,5 +1,5 @@
 {% extends "hotelSystem/layout.html" %} 
-
+{% load custom_tags %}
     {% block title %} 
     {{ title }} 
     {% endblock %} 
@@ -9,7 +9,7 @@
     <h1>Dashboard</h1>
     <br>
     <div class="wrap_grid">
-        <a class="container" href="{% url 'rooms' %}">
+        <a class="container dashboard" href="{% url 'rooms' %}">
             <div class="post">
                 <div class="header_post">
                     <img src="../static/hotelSystem/img/room.jpeg" alt="" />
@@ -26,47 +26,89 @@
             </div>
         </a>
 
-        <a class="container" href="{% url 'reservations' %}">
-            <div class="post">
-                <div class="header_post">
-                    <img src="../static/hotelSystem/img/reception.jpeg" alt="" />
-                </div>
+        {% if my_reservation  %}
+            <a class="container dashboard" href="{% url 'reservations_view' my_reservation.reservation_id %}">
+                <div class="post">
+                    <div class="header_post">
+                        <img src="../static/hotelSystem/img/pillow.jfif" alt="" />
+                    </div>
 
-                <div class="body_post">
-                    <div class="post_content">
-                        <h1>Total Reservations: {{ total_num_reservations }}</h1>
-                        <p>
-                            Total Check-ins: {{total_check_in}}
-                        </p>
+                    <div class="body_post">
+                        <div class="post_content">
+                            <h1>My Reservation: {{ my_reservation }}</h1>
+                            <p>
+                                My Room: {{my_room}}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        {% endif %}
 
-        <a class="container" href="{% url 'customers' %}">
-            <div class="post">
-                <div class="header_post">
-                    <img src="../static/hotelSystem/img/staffBg.jpeg" alt="" />
-                </div>
+        {% if my_checkin%} 
+            <a class="container dashboard" href="{% url 'checkin_view' my_checkin.id %}">
+                <div class="post">
+                    <div class="header_post">
+                        <img src="../static/hotelSystem/img/bed.jpg" alt="" />
+                    </div>
 
-                <div class="body_post">
-                    <div class="post_content">
-                        <h1>Total Staffs: {{ total_num_staffs }}</h1>
-                        <p>
-                            Total Customers: {{ total_num_customers }}
-                        </p>
-                        {% if last_reserved_by %}
+                    <div class="body_post">
+                        <div class="post_content">
+                            <h1>My Check-in: {{ my_checkin }}</h1>
                             <p>
-                                Last Reservation: {{ last_reserved_by.customer.first_name }} {{ last_reserved_by.customer.last_name }}
+                                Remaining Balance: {{my_checkin.id|balance}}
                             </p>
-                            <p>
-                                Last Check-in by: {{last_reserved_by.staff.username}}
-                            </p>
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        {% endif %}
+
+        {% if request.user|has_group:"Staff" %} 
+            <a class="container dashboard" href="{% url 'reservations' %}">
+                <div class="post">
+                    <div class="header_post">
+                        <img src="../static/hotelSystem/img/reception.jpeg" alt="" />
+                    </div>
+
+                    <div class="body_post">
+                        <div class="post_content">
+                            <h1>Total Reservations: {{ total_num_reservations }}</h1>
+                            <p>
+                                Total Check-ins: {{total_check_in}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+
+        {% if request.user|has_group:"Staff" %} 
+            <a class="container dashboard" href="{% url 'customers' %}">
+                <div class="post">
+                    <div class="header_post">
+                        <img src="../static/hotelSystem/img/staffBg.jpeg" alt="" />
+                    </div>
+
+                    <div class="body_post">
+                        <div class="post_content">
+                            <h1>Total Staffs: {{ total_num_staffs }}</h1>
+                            <p>
+                                Total Customers: {{ total_num_customers }}
+                            </p>
+                            {% if last_reserved_by %}
+                                <p>
+                                    Last Reservation: {{ last_reserved_by.customer.first_name }} {{ last_reserved_by.customer.last_name }}
+                                </p>
+                                <p>
+                                    Last Check-in by: {{last_reserved_by.staff.username}}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
   </div>
   
 {% endblock %}

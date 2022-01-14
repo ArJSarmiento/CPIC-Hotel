@@ -4,7 +4,6 @@ import datetime
 from django.urls import reverse
 
 class User(AbstractUser):
-    isAdmin = models.BooleanField(default=False)
     SEX_CHOICES = (
         ('M', 'Male',),
         ('F', 'Female',),

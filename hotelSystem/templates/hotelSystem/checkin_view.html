@@ -1,5 +1,6 @@
 {% extends "hotelSystem/layout.html" %} 
 {% load static %}
+{% load custom_tags %}
 {% block title %} 
 {{ title }} 
 {% endblock %} 
@@ -35,11 +36,14 @@
         <li class="table-header">
           <div class="col col-1">Reservation</div>
           <div class="col col-2">Rooms</div>
-          <div class="col col-3">Amount</div>
-          <div class="col col-4">Check-in Date Time</div>
-          <div class="col col-5">Last Edited On</div>
-          <div class="col col-6">Checked In By</div>
-          <div class="col col-7">Check Out?</div>
+          <div class="col col-3">Paid Amount</div>
+          <div class="col col-4">Remaining Balance</div>
+          <div class="col col-5">Check-in Date Time</div>
+          <div class="col col-6">Last Edited On</div>
+          <div class="col col-7">Checked In By</div>
+          {% if request.user|has_group:"Staff" %} 
+            <div class="col col-8">Check Out?</div>
+          {% endif %}
         </li>
         
         <li class="table-row">
@@ -51,15 +55,26 @@
                     <span class="comma">Room no. {{room.room_no}}</span>   
                 {% endfor %}
             </div>
-            <div class="col col-3 money" data-label="Amount">{{my_checkin.initial_amount}}</div>
-            <div class="col col-4" data-label="Check-in Date Time">{{my_checkin.check_in_date_time}}</div>
-            <div class="col col-5" data-label="Last Edited On">{{my_checkin.last_edited_on}}</div>
-            <div class="col col-6" data-label="Checked In By">{{my_checkin.user}}</div>
-            <a class="col col-7 checkInBtn" id="modal-closed" data-id="{{my_checkin.id}}" data-path="checkout" data-label="Check Out?" href="#modal-opened">
-              <span>
-                  Checkout
-              </span> 
-            </a>
+            <div class="col col-3 money" data-label="Paid Amount">{{my_checkin.initial_amount}}</div>
+            <div class="col col-4 money" data-label="Remaining Balance">{{my_checkin.id|balance}}</div>
+            <div class="col col-5" data-label="Check-in Date Time">{{my_checkin.check_in_date_time}}</div>
+            <div class="col col-6" data-label="Last Edited On">{{my_checkin.last_edited_on}}</div>
+            <div class="col col-7" data-label="Checked In By">{{my_checkin.user}}</div>
+            {% if request.user|has_group:"Staff" %} 
+              {% if checkout %}
+                <a class="col col-8 checkInBtn" id="" data-label="Checkout?" href="{% url 'checkout_view' checkout.id %}">
+                  <span >
+                    Details
+                  </span>
+                </a>
+              {% else %}
+                <a class="col col-8 checkInBtn" id="modal-closed" data-id="{{my_checkin.id}}" data-path="checkout" data-label="Check Out?" href="#modal-opened">
+                  <span>
+                      Checkout
+                  </span> 
+                </a>
+              {% endif %}
+            {% endif %}
         </li>
       </ul>
     </div>

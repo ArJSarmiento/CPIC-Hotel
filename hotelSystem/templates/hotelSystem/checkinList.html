@@ -1,5 +1,6 @@
 {% extends "hotelSystem/layout.html" %} 
 {% load static %}
+{% load custom_tags %}
 {% block title %} 
 {{ title }} 
 {% endblock %} 
@@ -38,8 +39,11 @@
         <div class="col col-2">Reservation</div>
         <div class="col col-3">Rooms</div>
         <div class="col col-4">Paid Amount</div>
-        <div class="col col-5">Check-In Date Time</div>
-        <div class="col col-6">Check Out?</div>
+        <div class="col col-5">Remaining Balance</div>
+        <div class="col col-6">Check-In Date Time</div>
+        {% if request.user|has_group:"Staff" %} 
+          <div class="col col-7">Check Out?</div>
+        {% endif %}
       </li>
       {% for c in checkIns %}
           <li class="table-row">
@@ -57,24 +61,29 @@
               <div class="col col-4 money" data-label="Paid Amount">
                 {{c.initial_amount}}
               </div>
-              <div class="col col-5" data-label="Check-In Date Time">{{c.check_in_date_time}}</div>
-              {% if c in checkIncheckout %}
-                  {% for checkout in checkouts %}
-                      {% if c.id == checkout.check_in.id %}
-                          <a class="col col-6 checkInBtn" id="" data-label="Checkout?" href="{% url 'checkout_view' checkout.id %}">
-                              <span >
-                                Details
-                              </span>
-                          </a>
-                      {% endif %}
-                  {% endfor %}
-              {% else %}
-                  <a class="col col-6 checkInBtn" id="modal-closed" data-id="{{c.id}}" data-path="checkout" data-label="Check Out?" href="#modal-opened">
-                      <span>
-                          Checkout
-                      </span> 
-                  </a>
-              {% endif %} 
+              <div class="col col-5 money" data-label="Remaining Balance">
+                {{c.id|balance}}
+              </div>
+              <div class="col col-6" data-label="Check-In Date Time">{{c.check_in_date_time}}</div>
+              {% if request.user|has_group:"Staff" %} 
+                {% if c in checkIncheckout %}
+                    {% for checkout in checkouts %}
+                        {% if c.id == checkout.check_in.id %}
+                            <a class="col col-7 checkInBtn" id="" data-label="Checkout?" href="{% url 'checkout_view' checkout.id %}">
+                                <span >
+                                  Details
+                                </span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <a class="col col-7 checkInBtn" id="modal-closed" data-id="{{c.id}}" data-path="checkout" data-label="Check Out?" href="#modal-opened">
+                        <span>
+                            Checkout
+                        </span> 
+                    </a>
+                {% endif %} 
+              {% endif %}
           </li>
       {% endfor %}
     </ul>

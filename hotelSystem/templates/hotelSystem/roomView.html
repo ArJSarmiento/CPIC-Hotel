@@ -1,5 +1,6 @@
 {% extends "hotelSystem/layout.html" %} 
 {% load static %}
+{% load custom_tags %}
 {% block title %} 
 {{ title }} 
 {% endblock %} 
@@ -40,9 +41,15 @@
                             <div class="media">
                                 <label>Reservation</label>
                                 {% if room.reservation %}
-                                  <a class="col col-5" data-label="Reservation" href="{% url 'reservations_view' room.reservation.reservation_id %}">
-                                    {{room.reservation}}
-                                  </a>
+                                  {% if request.user|has_group:"Staff" %} 
+                                    <a class="col col-5" data-label="Reservation" href="{% url 'reservations_view' room.reservation.reservation_id %}">
+                                      {{room.reservation}}
+                                    </a>
+                                  {% else %}
+                                    <p class="col col-5" data-label="Reservation">
+                                      Cannot be displayed
+                                    </p>
+                                  {% endif %}
                                 {% else %}
                                   <p class="col col-5" data-label="Reservation" >
                                     None

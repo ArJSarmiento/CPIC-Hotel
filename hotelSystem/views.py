@@ -22,9 +22,26 @@ def index(request):
     total_num_rooms = Room.objects.all().count()
     available_num_rooms = Room.objects.exclude(reservation__isnull=False).count()
     total_num_reservations = Reservation.objects.all().count()
-    total_num_staffs = User.objects.filter(isAdmin=True).count()
+    total_num_staffs = User.objects.filter(groups__name='Staff').count()
     total_num_customers = Customer.objects.all().count()
     total_check_in = CheckIn.objects.all().count()
+    
+    try:
+        customer =  Customer.objects.get(user__id = request.user.id)
+        my_reservation = Reservation.objects.filter(customer__customer_id=customer.customer_id).first()
+    except Customer.DoesNotExist:
+        customer = None
+        my_reservation = None
+    
+    my_room = None
+    my_checkin = None
+    if my_reservation != None and customer != None:
+        try:
+            my_room = Room.objects.get(reservation__reservation_id=my_reservation.reservation_id)
+        except Room.DoesNotExist :
+            my_room = None
+        
+        my_checkin = CheckIn.objects.filter(reservation__customer__customer_id=customer.customer_id).first()
     
     if total_num_reservations == 0:
         last_reserved_by = Reservation.objects.none()
@@ -40,6 +57,9 @@ def index(request):
         'total_num_customers': total_num_customers,
         'last_reserved_by': last_reserved_by,
         'total_check_in': total_check_in,
+        'my_reservation': my_reservation,
+        'my_room': my_room,
+        'my_checkin': my_checkin
     }
 
     return render(request, "hotelSystem/index.html", data)
@@ -49,6 +69,9 @@ def offline(request):
 
 @login_required(login_url='login')
 def reserve(request):
+    if not request.user.groups.filter(name='Staff').exists():
+        return HttpResponseRedirect(reverse("index"))
+    
     title = "Add Reservation"
     isSuccess = True
     reservation = Reservation.objects.none()
@@ -151,6 +174,9 @@ def reserve(request):
 
 @login_required(login_url='login')
 def customers(request):
+    if not request.user.groups.filter(name='Staff').exists():
+        return HttpResponseRedirect(reverse("index"))
+    
     page_title = "Guests"  # For page title as well as heading
     reservations = Customer.objects.filter(status = 'Reserved')
     no_reservations = Customer.objects.filter(status = 'Not Reserved')
@@ -176,6 +202,10 @@ def customers(request):
 @login_required(login_url='login')
 def customer_view(request, customerID):
     customer =  Customer.objects.get(customer_id = customerID)
+    
+    if not request.user.groups.filter(name='Staff').exists() and customer.user.id!=request.user.id:
+        return HttpResponseRedirect(reverse("index")) 
+    
     room= Room.objects.filter(reservation__customer = customer)
     page_title = str(customer.first_name)+" "+str(customer.last_name)
     data = {
@@ -188,7 +218,12 @@ def customer_view(request, customerID):
         
 @login_required(login_url='login')
 def reservations(request):
-    r= Reservation.objects.all().order_by('-reservation_date_time')
+    if request.user.groups.filter(name='Staff').exists():
+        r= Reservation.objects.all().order_by('-reservation_date_time')
+    else:
+        customer =  Customer.objects.get(user__id = request.user.id)
+        r = Reservation.objects.filter(customer__customer_id=customer.customer_id).order_by('-reservation_date_time')
+    
     if r.count() == 0:
         data = {
             'title': 'No reservations found.',
@@ -197,9 +232,9 @@ def reservations(request):
         return render(request, "hotelSystem/empty.html", data)
     
     page_title = "Reservations"  # For page title as well as heading
+    
     rooms =  Room.objects.exclude(reservation__isnull=True)
     rinRooms = [x.reservation for x in rooms]
-    
     checkIns = CheckIn.objects.all()
     checkInR = [x.reservation for x in checkIns]
     
@@ -216,12 +251,21 @@ def reservations(request):
 @login_required(login_url='login')
 def reservations_view(request, reservationID):
     r= Reservation.objects.get(reservation_id = reservationID)
+    
+    if not request.user.groups.filter(name='Staff').exists() and r.customer.user.id != request.user.id:
+        return HttpResponseRedirect(reverse("index")) 
+    
     page_title = "Reservation No. " + str(r.reservation_id)+ " Details"  
     room = Room.objects.filter(reservation__reservation_id=reservationID)
+    try:
+        checkin = CheckIn.objects.get(reservation__reservation_id=reservationID)
+    except CheckIn.DoesNotExist:
+        checkin = None
     data = {
         'title': page_title,
         'r': r,
         'rooms': room,
+        'checkin': checkin
     }
     return render(request, "hotelSystem/reservation_view.html", data)
 
@@ -251,7 +295,11 @@ def checkin(request):
 
 @login_required(login_url='login')
 def checkins(request):
-    checkIns = CheckIn.objects.all().order_by('-check_in_date_time')
+    if request.user.groups.filter(name='Staff').exists():
+        checkIns = CheckIn.objects.all().order_by('-check_in_date_time')
+    else:
+        customer =  Customer.objects.get(user__id = request.user.id)
+        checkIns = CheckIn.objects.filter(reservation__customer__customer_id= customer.customer_id).order_by('-check_in_date_time')
     
     if checkIns.count() == 0:
         data = {
@@ -275,10 +323,18 @@ def checkins(request):
 @login_required(login_url='login')
 def checkin_view(request,checkinID):
     my_checkin = CheckIn.objects.get(id = checkinID)
-    title =    "Check-In No. " + str(my_checkin.id)
+    if not request.user.groups.filter(name='Staff').exists() and my_checkin.reservation.customer.user.id != request.user.id:
+            return HttpResponseRedirect(reverse("index")) 
+        
+    title =  "Check-In No. " + str(my_checkin.id)
+    try:
+        checkout=CheckOut.objects.get(check_in__id = checkinID)
+    except CheckOut.DoesNotExist:
+        checkout = None
     data = {
         'title': title,
-        'my_checkin': my_checkin
+        'my_checkin': my_checkin,
+        "checkout":checkout
     }
     return render(request, "hotelSystem/checkin_view.html", data)
     
@@ -310,7 +366,11 @@ def checkout(request):
 
 @login_required(login_url='login')
 def checkouts(request):
-    my_checkouts = CheckOut.objects.all().order_by('-check_out_date_time')
+    if request.user.groups.filter(name='Staff').exists():
+        my_checkouts = CheckOut.objects.all().order_by('-check_out_date_time')
+    else:
+        customer =  Customer.objects.get(user__id = request.user.id)
+        my_checkouts = CheckOut.objects.filter(check_in__reservation__customer__customer_id=customer.customer_id).order_by('-check_out_date_time')
     if my_checkouts.count() == 0:
         data = {
             'title': 'No Check-Outs found.',
@@ -329,6 +389,9 @@ def checkouts(request):
 @login_required(login_url='login')
 def checkout_view(request,checkoutID):
     my_checkout = CheckOut.objects.get(id = checkoutID)
+    if not request.user.groups.filter(name='Staff').exists() and my_checkout.check_in.reservation.customer.user.id != request.user.id:
+            return HttpResponseRedirect(reverse("index")) 
+        
     title = "Check-Out No. " + str(my_checkout.id)
     data = {
         'title': title,
@@ -384,6 +447,8 @@ def room_view(request, roomID):
 
 @login_required(login_url='login')
 def payments(request):
+    if not request.user.groups.filter(name='Staff').exists():
+        return HttpResponseRedirect(reverse("index")) 
     title = "Payment Dashboard"
     num_of_reservations = Reservation.objects.all().count()
     num_of_check_ins = CheckIn.objects.all().count()

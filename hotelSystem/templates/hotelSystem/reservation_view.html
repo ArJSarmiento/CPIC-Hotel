@@ -1,5 +1,6 @@
 {% extends "hotelSystem/layout.html" %} 
 {% load static %}
+{% load custom_tags %}
 {% block title %} 
 {{ title }} 
 {% endblock %} 
@@ -41,7 +42,9 @@
           <div class="col col-6">Expected Arrival</div>
           <div class="col col-7">Expected Departure</div>
           <div class="col col-8">Reserved Rooms</div>
-          <div class="col col-9">Check In?</div>
+          {% if request.user|has_group:"Staff" %} 
+            <div class="col col-9">Check In?</div>
+          {% endif %}
         </li>
         
         <li class="table-row">
@@ -69,11 +72,21 @@
               </span>
             {% endif %}    
           </div>
-          <a class="col col-9 checkInBtn" id="modal-closed" data-id="{{r.reservation_id}}" data-path="checkin" data-label="Check In?" href="#modal-opened">
-            <span>
-              Check In
-            </span> 
-          </a>
+          {% if request.user|has_group:"Staff" %} 
+            {% if checkin %}
+              <a class="col col-9 checkInBtn" id="" data-label="Check In?" href="{% url 'checkin_view' checkin.id %}">
+                <span>
+                  Details
+                </span>
+              </a>
+            {% else %}
+              <a class="col col-9 checkInBtn" id="modal-closed" data-id="{{r.reservation_id}}" data-path="checkin" data-label="Check In?" href="#modal-opened">
+                <span>
+                  Check In
+                </span> 
+              </a>
+            {% endif %}
+          {% endif %}
         </li>   
       </ul>
     </div>
