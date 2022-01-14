@@ -9,8 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <script type="text/javascript" src="{% static 'hotelSystem/js/script.js' %}"></script>
-    
     <title>Offline</title>
         
     <style>
@@ -29,6 +27,8 @@
             --thirdcolor:#0A66C2;
             --font-header:'Poppins';
             --font-text: 'Lato';
+            --dotcolor:50, 49, 51;
+            --dot: radial-gradient(rgb(var(--dotcolor)) 67%, rgba(var(--dotcolor), 0) 68%);
           }
     </style>
     <base href="/">
@@ -37,6 +37,8 @@
     <link rel="icon" href='/static/hotelSystem/img/CPIC.png'>
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
+    <script type="text/javascript" src="../static/hotelSystem/js/spinner.js"></script>
 </head>
 
 <body>
@@ -83,6 +85,10 @@
                 </div>
             </div>
         </main>
+
+        <div class="spinnerCont" id="spinner">
+            <div class="spinner"></div>
+        </div>
     </div>
 
 </body>

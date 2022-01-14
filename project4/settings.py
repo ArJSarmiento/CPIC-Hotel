@@ -25,7 +25,6 @@ SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = False
-
 ALLOWED_HOSTS = ['cpic-hotel.herokuapp.com', '198.211.99.20', 'localhost', '127.0.0.1',] 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -38,10 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pwa',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

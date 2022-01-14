@@ -11,6 +11,9 @@ from .models import CheckOut, CheckIn, Room, Reservation, Customer, User
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 from math import ceil
 
 @login_required(login_url='login')
@@ -49,51 +52,90 @@ def reserve(request):
     title = "Add Reservation"
     isSuccess = True
     reservation = Reservation.objects.none()
+    reservation_form = ReservationForm()
+    error = ""
+
     if request.method == 'POST':
         reservation_form = ReservationForm(request.POST)
         if reservation_form.is_valid():
-            customer = Customer(
-                first_name=reservation_form.cleaned_data.get('first_name'),
-                middle_name=reservation_form.cleaned_data.get('middle_name'),
-                last_name=reservation_form.cleaned_data.get('last_name'),
-                email_address=reservation_form.cleaned_data.get('email'),
-                contact_no=reservation_form.cleaned_data.get('contact_no'),
-                address=reservation_form.cleaned_data.get('address'),
-                sex=reservation_form.cleaned_data.get('sex')
-            )
-            customer.save()
+            _username = reservation_form.cleaned_data.get('user_name')
+            _email = reservation_form.cleaned_data.get('email')
+            _first_name = reservation_form.cleaned_data.get('first_name')
+            _middle_name = reservation_form.cleaned_data.get('middle_name')
+            _last_name = reservation_form.cleaned_data.get('last_name')
+            _sex=reservation_form.cleaned_data.get('sex')
+            _contact_no=reservation_form.cleaned_data.get('contact_no')
+            _address=reservation_form.cleaned_data.get('address')
+            _no_of_children=reservation_form.cleaned_data.get('no_of_children')
+            _no_of_adults=reservation_form.cleaned_data.get('no_of_adults')
 
-            reservation = Reservation(
-                staff=request.user,
-                customer=customer,
-                no_of_children=reservation_form.cleaned_data.get('no_of_children'),
-                no_of_adults=reservation_form.cleaned_data.get('no_of_adults'),
-                expected_arrival_date_time=reservation_form.cleaned_data.get('expected_arrival_date_time'),
-                expected_departure_date_time=reservation_form.cleaned_data.get('expected_departure_date_time'),
-                reservation_date_time=timezone.now(),
-            )
-            reservation.save()
-            for room in reservation_form.cleaned_data.get('rooms'):
-                room.reservation = reservation
-                room.save()
-           
-            return render(
-                request,
-                'hotelSystem/reserve_success.html', {
-                    'reservation': reservation,
-                    'isSuccess': isSuccess
-                }
-            )
-    else:
-        reservation_form = ReservationForm()
-    
+            error="Number of guests should'nt be negative."
+            if _no_of_children>=0 or _no_of_adults>=0: 
+                error=""
+                _user = User.objects.filter(username=_username).first()
+                if _user is None:
+                    _password = "password_1234"
+                    _user = User.objects.create_user(_username, _email, _password)
+                    _user.first_name = _first_name
+                    _user.last_name = _last_name
+                    _user.sex = _sex
+                    _user.save() 
+
+                    customer = Customer(
+                        first_name=_first_name,
+                        middle_name=_middle_name,
+                        last_name=_last_name,
+                        email_address=_email,
+                        contact_no=_contact_no,
+                        address=_address,
+                        sex=_sex,
+                        user = _user,
+                    )
+                    customer.save()
+                elif _first_name == _user.first_name and _last_name == _user.last_name:
+                    customer = Customer.objects.filter(user=_user).first()
+                else:
+                    errorUserName = "Username is already taken."
+                    return render(
+                        request,
+                        'hotelSystem/reserve.html', {
+                            'title': title,
+                            'reservation_form': reservation_form,
+                            'isSuccess': isSuccess,
+                            'error': errorUserName,
+                        }
+                    )
+
+
+                reservation = Reservation(
+                    staff=request.user,
+                    customer=customer,
+                    no_of_children=reservation_form.cleaned_data.get('no_of_children'),
+                    no_of_adults=reservation_form.cleaned_data.get('no_of_adults'),
+                    expected_arrival_date_time=reservation_form.cleaned_data.get('expected_arrival_date_time'),
+                    expected_departure_date_time=reservation_form.cleaned_data.get('expected_departure_date_time'),
+                    reservation_date_time=timezone.now(),
+                )
+                reservation.save()
+
+                for room in reservation_form.cleaned_data.get('rooms'):
+                    room.reservation = reservation
+                    room.save()
+
+                return render(
+                    request,
+                    'hotelSystem/reserve_success.html', {
+                        'reservation': reservation,
+                        'isSuccess': isSuccess,
+                    }
+                )
+
     if Room.objects.filter(reservation__isnull=True).count() == 0:
-        isSuccess = False
         return render(
             request,
             'hotelSystem/reserve_success.html', {
                 'reservation': reservation,
-                'isSuccess': isSuccess
+                'isSuccess': False
             }
         )
 
@@ -102,7 +144,8 @@ def reserve(request):
         'hotelSystem/reserve.html', {
             'title': title,
             'reservation_form': reservation_form,
-            'isSuccess': isSuccess
+            'isSuccess': isSuccess,
+            'error': error
         }
     )
 
@@ -363,6 +406,33 @@ def payments(request):
         'total_income': total_income
     }
     return render(request, "hotelSystem/payment.html", data)
+
+@login_required(login_url='login')
+def profile(request):
+    user = request.user
+    customer = Customer.objects.filter(user__id=user.id).first()
+    data = {
+        'user': user,
+        'customer': customer
+    }
+    return render(request, "hotelSystem/my_profile.html", data)
+
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'hotelSystem/change_password.html', {
+        'form': form
+    })
 
 @login_required(login_url='login')  
 def handler400(request, exception):

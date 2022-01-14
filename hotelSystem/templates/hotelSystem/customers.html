@@ -15,8 +15,12 @@
         {% for c in reservations %}
             <a href="{% url 'customer_view' c.customer_id %}">
                 <article class="leaderboard__profile">
-                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}"  class="leaderboard__picture">
-                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    {% if c.get_sex_display == 'Male'%}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% else %}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% endif %}
+                    <span class="leaderboard__name">{{c.user.first_name}} {{c.user.last_name}}</span>
                     <span id="reserved" class="leaderboard__value">Reserved<span></span></span>
                 </article>
             </a>
@@ -25,8 +29,12 @@
         {% for c in checked_in %}
         <a href="{% url 'customer_view' c.customer_id %}">
             <article class="leaderboard__profile">
-                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
-                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    {% if c.get_sex_display == 'Male'%}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% else %}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% endif %}
+                    <span class="leaderboard__name">{{c.user.first_name}} {{c.user.last_name}}</span>
                     <span id="checked_in" class="leaderboard__value">Checked In<span></span></span>
                 </article>
             </a>
@@ -35,8 +43,12 @@
         {% for c in checked_out %}
             <a href="{% url 'customer_view' c.customer_id %}">
                 <article class="leaderboard__profile">
-                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
-                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    {% if c.get_sex_display == 'Male'%}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% else %}
+                    <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% endif %}
+                    <span class="leaderboard__name">{{c.user.first_name}} {{c.user.last_name}}</span>
                     <span id="checked_out" class="leaderboard__value">Checked Out<span></span></span>
                 </article>
             </a>
@@ -44,8 +56,12 @@
         {% for c in no_reservations %}
             <a href="{% url 'customer_view' c.customer_id %}">
                 <article class="leaderboard__profile">
-                    <img src="https://avatars.dicebear.com/api/micah/{{c.sex}}{{c.first_name}}{{c.last_name}}.svg" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
-                    <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                    {% if c.get_sex_display == 'Male'%}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% else %}
+                        <img src="https://avatars.dicebear.com/api/micah/{{c.user.first_name}}{{c.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                    {% endif %}
+                    <span class="leaderboard__name">{{c.user.first_name}} {{c.user.last_name}}</span>
                     <span id="not-reserved" class="leaderboard__value">Not Reserved<span></span></span>
                 </article>
             </a>

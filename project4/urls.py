@@ -16,14 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import handler400, handler403, handler404, handler500
+from hotelSystem.sitemaps import StaticViewSitemap
+from django.contrib.sitemaps.views import sitemap
 
 handler400 = 'hotelSystem.views.handler400'
 handler403 = 'hotelSystem.views.handler403'
 handler404 = 'hotelSystem.views.handler404'
 handler500 = 'hotelSystem.views.handler500'
 
+sitemaps = {
+    'static': StaticViewSitemap,
+}
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("hotelSystem.urls")),
+    path("sitemap.xml", sitemap, {"sitemaps":sitemaps}),
     path("", include('pwa.urls')),
 ]

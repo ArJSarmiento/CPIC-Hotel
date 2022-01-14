@@ -8,7 +8,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <meta name="description" content="CPIC Hotel is the official hotel management system for the Christian Polytechnic Institute of Catanduanes.">
+    <meta name="keywords" content="virac, CPIC, Christian Polytechnic Institute of Catanduanes, CPICHotel, cpic-hotel.heroku.com, cpic-hotel, hotel">
+    <meta name="author" content="Arnel Jan Sarmiento">
     
+    <meta property="og:title" content="CPIC Hotel">
+    <meta property="og:description" content="CPIC Hotel is the official hotel management system for the Christian Polytechnic Institute of Catanduanes.">
+    <meta property="og:type" content="website">
+
     <script type="text/javascript" src="{% static 'hotelSystem/js/script.js' %}"></script>
     
     <title>{% block title %}{% endblock %}</title>
@@ -25,19 +34,23 @@
             --thirdcolor:#0A66C2;
             --font-header:'Poppins';
             --font-text: 'Lato';
+            --dotcolor:50, 49, 51;
+            --dot: radial-gradient(rgb(var(--dotcolor)) 67%, rgba(var(--dotcolor), 0) 68%);
           }
     </style>
     {% block additional-static %}
     {% endblock %}
 
     {% block media-files %}
-     {% endblock %}
+    {% endblock %}
      
     <link href="{% static 'hotelSystem/css/styles.css' %}" rel="stylesheet">
      
     <link rel="icon" href="{% static 'hotelSystem/img/CPIC.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+
+    <script type="text/javascript" src="{% static 'hotelSystem/js/spinner.js' %}"></script>
 </head>
 
 <body>
@@ -46,6 +59,15 @@
             <h2>
                 CPIC Hotel
             </h2>
+            {% if request.user.is_authenticated %}  
+                <a class="profile" href="{% url 'profile' %}""> 
+                    {% if request.user.get_sex_display == 'Male'%}
+                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
+                    {% else %}
+                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.sex}}{{request.user.first_name}}{{request.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
+                    {% endif %}
+                </a>
+            {% endif %}
         </header>
 
         {% if user.is_authenticated %}
@@ -76,8 +98,12 @@
         {% endif %}
 
         <main>
-            {% block body %} {% endblock %}
+            {% block body %} {% endblock %}  
         </main>
+
+        <div class="spinnerCont" id="spinner">
+            <div class="spinner"></div>
+        </div>
     </div>
 
 </body>

@@ -13,6 +13,18 @@ class ReservationForm(forms.Form):
     error_messages = {
         'date_time_error': 'Departure time earlier than Arrival time',
     }
+    
+    user_name = forms.CharField(
+        label=_("Username"),
+        max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'id': 'reserveField',
+                'placeholder': _('Enter username'),
+            }
+        )
+    )
 
     first_name = forms.CharField(
         label=_("First Name"),
@@ -72,7 +84,7 @@ class ReservationForm(forms.Form):
     )
     address = forms.CharField(
         label=_("Address"),
-        max_length=50,
+        max_length=150,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -87,6 +99,7 @@ class ReservationForm(forms.Form):
                 'class': 'form-control',
                 'id': 'reserveField',
                 'placeholder': _('Enter number of children'),
+                 'min': 0,
             }
         )
     )
@@ -96,9 +109,11 @@ class ReservationForm(forms.Form):
                 'class': 'form-control',
                 'placeholder': _('Enter number of adults'),
                 'id': 'reserveField',
+                'min': 0,
             }
         )
     )
+    
     rooms = forms.ModelMultipleChoiceField(
         queryset=Room.objects.filter(reservation__isnull=True),
         widget=FilteredSelectMultiple(
@@ -106,7 +121,8 @@ class ReservationForm(forms.Form):
             verbose_name="Rooms",
             attrs={
                 'class': 'form-control',
-               
+                'data-role': 'none',
+                'data-native-menu': 'false',
             },
         ),
     )

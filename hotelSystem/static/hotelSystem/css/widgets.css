@@ -57,7 +57,6 @@
 .selector .selector-filter label,
 .inline-group .aligned .selector .selector-filter label {
     float: left;
-    margin: 7px 0 0;
     width: 18px;
     height: 18px;
     padding: 0;
@@ -175,7 +174,7 @@ a.active.selector-clearall:focus, a.active.selector-clearall:hover {
 
 .stacked {
     float: left;
-    width: 90%;
+    width: 100%;
 }
 
 .stacked select {
@@ -193,11 +192,13 @@ a.active.selector-clearall:focus, a.active.selector-clearall:hover {
 
 .stacked .selector-available input {
     width: 79%;
+    height: 30px;
+    font-size: 16px;
 }
 
 .stacked ul.selector-chooser {
     height: 22px;
-    width: 50px;
+    width: 78px;
     margin: 0 0 10px 40%;
     background-color: #eee;
     border-radius: 10px;

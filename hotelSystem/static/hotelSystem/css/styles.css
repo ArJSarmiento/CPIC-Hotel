@@ -35,8 +35,6 @@ strong {
 }
 
 .wrap_grid>* {
-    /* justify-content: flex-start;
-    flex: 3 3 33.33%; */
     list-style-type: none;
     padding: 5px;
 }
@@ -61,7 +59,7 @@ header {
     justify-content: center;
     align-items: center;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    z-index: 3;
+    z-index: 4;
     -webkit-touch-callout: none;
     /* iOS Safari */
     -webkit-user-select: none;
@@ -626,6 +624,19 @@ footer span i {
     .page header h2 {
         font-size: 25px;
     }
+
+    .profile
+    {
+        bottom: 5%;
+        border-radius: 50%;
+        background: #aaa !important;
+        -webkit-box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+        box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
+    }
+    
+    .profile img{
+        z-index: 1 !important;
+    }
 }
 
 @media only screen and (max-width: 425px) {
@@ -647,4 +658,92 @@ footer span i {
     {
         width: 85%;
     }
+}
+
+.spinnerCont{
+    height: 90vh;
+    width: 100vw;
+    background: white;
+    margin-top: 70px;
+    position: fixed;
+    top: 0;
+    display: none;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.spinner {
+  position: relative;
+  width: 50vmin;
+  height: 50vmin;
+  filter: blur(1vmin) contrast(12);
+}
+.spinner:before, body .spinner:after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  background-color: white;
+  background-repeat: no-repeat;
+  -webkit-animation: spin linear infinite;
+          animation: spin linear infinite;
+  mix-blend-mode: multiply;
+}
+.spinner:before {
+  background-image: var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot), var(--dot);
+  background-position: 50% 90%, 75.7115043875% 80.6417777248%, 89.3923101205% 56.9459271067%, 84.6410161514% 30%, 63.680805733% 12.4122951688%, 36.3191942716% 12.4122951992%, 15.3589841541% 30.0000016734%, 10.6077003589% 56.9459762611%, 24.2887189832% 80.6426935862%;
+  background-size: 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%, 10% 10%;
+  -webkit-animation-duration: 10s;
+          animation-duration: 10s;
+}
+.spinner:after {
+  background-image: var(--dot), var(--dot), var(--dot);
+  background-position: 50% 92.5%, 86.8060796608% 28.75%, 13.1939206638% 28.750001778%;
+  background-size: 15% 15%, 15% 15%, 15% 15%;
+  -webkit-animation-duration: 5s;
+          animation-duration: 5s;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.profile
+{
+    position: fixed;
+    right: 5%;
+    height: 55px;
+    width: 55px;
+    background: transparent;
+    display: flex;
+    border-radius: 100px;
+    border: #aaa solid;
+    justify-content: center;
+    z-index: 1;
+}
+
+.profile img
+{
+    position: absolute;
+    height: 85%;
+    z-index: 1001;
+    width: auto;
 }

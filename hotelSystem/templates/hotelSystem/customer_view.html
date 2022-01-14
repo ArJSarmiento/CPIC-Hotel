@@ -14,14 +14,12 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-              <img
-                src="https://avatars.dicebear.com/api/micah/{{customer.sex}}{{customer.first_name}}{{customer.last_name}}.svg"
-                alt="Not Found"
-                onerror="this.src"
-                ="{% static 'hotelSystem/img/staff.png' %}"
-                class="rounded-circle"
-                width="150"
-              />
+              {% if customer.get_sex_display == 'Male'%}
+                  <img src="https://avatars.dicebear.com/api/micah/{{customer.user.first_name}}{{customer.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture"class="rounded-circle" width="150">
+              {% else %}
+                  <img src="https://avatars.dicebear.com/api/micah/{{customer.user.first_name}}{{customer.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture" width="150">
+              {% endif %}
+              
               <div class="mt-3">
                 <h4>{{customer.first_name}} {{customer.last_name}}</h4>
                 <p class="text-secondary mb-1">
@@ -52,6 +50,15 @@
       <div class="col-md-8">
         <div class="card mb-3">
           <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Username</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{customer.user.username}} 
+              </div>
+            </div>
+            <hr />
             <div class="row">
               <div class="col-sm-3">
                 <h6 class="mb-0">Full Name</h6>

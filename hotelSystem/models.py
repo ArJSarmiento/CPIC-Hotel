@@ -19,7 +19,7 @@ class User(AbstractUser):
 
 class Customer(models.Model):
     """Model for customers"""
-    customer_id = models.BigAutoField(primary_key=True)
+    customer_id = models.BigAutoField(primary_key=True)  
     first_name = models.CharField(max_length=50)
     middle_name = models.CharField(max_length=50, null=False, blank=True)
     last_name = models.CharField(max_length=50)
@@ -49,6 +49,8 @@ class Customer(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_CHOICES[0][1]
     )
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def get_absolute_url(self):
         return reverse('customer_view', kwargs={'customerID': self.customer_id})

@@ -1,9 +1,10 @@
-var staticCacheName = "django-pwa-v" + new Date().getTime();
-var filesToCache = [
+let staticCacheName = "django-pwa-v" + new Date().getTime();
+let filesToCache = [
     '/static/hotelSystem/css/styles.css',
     '/static/hotelSystem/css/reserve_success.css',
     '/static/hotelSystem/img/CPIC.png',
     '/static/hotelSystem/img/error.png',
+    '/static/hotelSystem/js/spinner.js',
     '/offline',
     '/static/hotelSystem/fonts/Lato-Regular.ttf',
     '/static/hotelSystem/fonts/Poppins-Bold.ttf',
@@ -37,6 +38,7 @@ self.addEventListener('activate', event => {
 
 // Serve from Cache
 self.addEventListener("fetch", event => {
+
     event.respondWith(
         caches.match(event.request, { ignoreSearch: true })
             .then(response => {
