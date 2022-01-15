@@ -496,7 +496,8 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'hotelSystem/change_password.html', {
-        'form': form
+        'form': form,
+        "title": "Change Password"
     })
     
 @login_required(login_url='login')
@@ -520,6 +521,7 @@ def staff(request):
     users = User.objects.order_by('first_name')
     data = {
         'users': users,
+        'title': 'Edit Staffs'
     }
     return render(request, "hotelSystem/staff.html", data)
 
