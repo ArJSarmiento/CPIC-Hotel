@@ -29,7 +29,7 @@
                         {% else %}
                             <img src="https://avatars.dicebear.com/api/micah/{{c.first_name}}{{c.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
                         {% endif %}
-                        <span class="leaderboard__name">{{c.username}} | {{c.first_name}} {{c.last_name}}</span>
+                        <span class="leaderboard__name">{{c.first_name}} {{c.last_name}} | {{c.username}}</span>
                         {% if c|has_group:"Staff" %} 
                             <span id="checked_in" class="leaderboard__value"><input type="checkbox" value="{{c.id}}" name="isStaff" class="plus-minus" checked></span>  
                         {% else %}
