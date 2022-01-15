@@ -64,6 +64,13 @@ def index(request):
 
     return render(request, "hotelSystem/index.html", data)
 
+def empty(request, title, message):
+    data = {
+        'title': title,
+        'message': message
+    }
+    return render(request, "hotelSystem/empty.html", data)
+
 def offline(request):
     return render(request, "hotelSystem/offline.html")
 
@@ -184,7 +191,7 @@ def customers(request):
     checked_out = Customer.objects.filter(status = 'Checked Out')
     
     if reservations.count() == 0 and no_reservations.count() == 0 and checked_in.count() == 0 and checked_out.count() == 0:
-        empty(request, "No guests found.", "There are no customers to display.")
+        return empty(request, "No guests found.", "There are no customers to display.")
     
     data = {
         'title': page_title,
@@ -211,13 +218,6 @@ def customer_view(request, customerID):
         'room': room
     }
     return render(request, "hotelSystem/customer_view.html", data)
-
-def empty(request, title, message):
-    data = {
-        'title': title,
-        'message': message
-    }
-    return render(request, "hotelSystem/empty.html", data)
 
 @login_required(login_url='login')
 def reservations(request):
