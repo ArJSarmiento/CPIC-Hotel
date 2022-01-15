@@ -184,11 +184,7 @@ def customers(request):
     checked_out = Customer.objects.filter(status = 'Checked Out')
     
     if reservations.count() == 0 and no_reservations.count() == 0 and checked_in.count() == 0 and checked_out.count() == 0:
-        data = {
-            'title': 'No guests found.',
-            'message': "There are no customers to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
+        empty(request, "No guests found.", "There are no customers to display.")
     
     data = {
         'title': page_title,
@@ -215,29 +211,35 @@ def customer_view(request, customerID):
         'room': room
     }
     return render(request, "hotelSystem/customer_view.html", data)
-        
+
+def empty(request, title, message):
+    data = {
+        'title': title,
+        'message': message
+    }
+    return render(request, "hotelSystem/empty.html", data)
+
 @login_required(login_url='login')
 def reservations(request):
     if request.user.groups.filter(name='Staff').exists():
         r= Reservation.objects.all().order_by('-reservation_date_time')
     else:
-        customer =  Customer.objects.get(user__id = request.user.id)
+        try:
+            customer =  Customer.objects.get(user__id = request.user.id)
+        except Customer.DoesNotExist:
+            return empty(request, 'No reservations found.', "There are no reservations to display.") 
         r = Reservation.objects.filter(customer__customer_id=customer.customer_id).order_by('-reservation_date_time')
     
     if r.count() == 0:
-        data = {
-            'title': 'No reservations found.',
-            'message': "There are no reservations to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
-    
+        return empty(request, 'No reservations found.', "There are no reservations to display.")
+
     page_title = "Reservations"  # For page title as well as heading
-    
+
     rooms =  Room.objects.exclude(reservation__isnull=True)
     rinRooms = [x.reservation for x in rooms]
     checkIns = CheckIn.objects.all()
     checkInR = [x.reservation for x in checkIns]
-    
+
     data = {
         'title': page_title,
         'reservations': r,
@@ -298,15 +300,15 @@ def checkins(request):
     if request.user.groups.filter(name='Staff').exists():
         checkIns = CheckIn.objects.all().order_by('-check_in_date_time')
     else:
-        customer =  Customer.objects.get(user__id = request.user.id)
+        try:
+            customer =  Customer.objects.get(user__id = request.user.id)
+        except Customer.DoesNotExist:
+            return empty(request, 'No check-ins found.', "There are no check-ins to display.")
+            
         checkIns = CheckIn.objects.filter(reservation__customer__customer_id= customer.customer_id).order_by('-check_in_date_time')
     
     if checkIns.count() == 0:
-        data = {
-            'title': 'No check-ins found.',
-            'message': "There are no check-ins to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
+        return empty(request, 'No check-ins found.', "There are no check-ins to display.")
     
     page_title = "Check-In List"  # For page title as well as heading
     checkouts = CheckOut.objects.all()
@@ -369,14 +371,14 @@ def checkouts(request):
     if request.user.groups.filter(name='Staff').exists():
         my_checkouts = CheckOut.objects.all().order_by('-check_out_date_time')
     else:
-        customer =  Customer.objects.get(user__id = request.user.id)
+        try:
+            customer =  Customer.objects.get(user__id = request.user.id)
+        except Customer.DoesNotExist:
+            return empty(request, 'No Check-Outs found.', "There are no check-outs to display.")
         my_checkouts = CheckOut.objects.filter(check_in__reservation__customer__customer_id=customer.customer_id).order_by('-check_out_date_time')
+        
     if my_checkouts.count() == 0:
-        data = {
-            'title': 'No Check-Outs found.',
-            'message': "There are no check-outs to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
+        return empty(request, 'No Check-Outs found.', "There are no check-outs to display.")
     
     title = "Check-Out List"  # For page title as well as heading
    
@@ -403,11 +405,7 @@ def checkout_view(request,checkoutID):
 def roomList(request):
     rooms =  Room.objects.all()
     if rooms.count() == 0:
-        data = {
-            'title': 'No Rooms found.',
-            'message': "There are no rooms to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
+        return empty(request, 'No rooms found.', "There are no rooms to display.")
     
     title = "Room List"
     
@@ -421,11 +419,7 @@ def roomList(request):
 def roomListVacant(request):
     rooms =  Room.objects.filter(availability = True)
     if rooms.count() == 0:
-        data = {
-            'title': 'No Vacant Rooms found.',
-            'message': "There are no vacant rooms to display.",
-        }
-        return render(request, "hotelSystem/empty.html", data)
+        return empty(request, 'No rooms found.', "There are no rooms to display.")
     
     title = "Vacant Rooms List"
     
