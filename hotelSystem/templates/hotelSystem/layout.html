@@ -68,7 +68,7 @@
                     {% if request.user.get_sex_display == 'Male'%}
                         <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
                     {% else %}
-                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.sex}}{{request.user.first_name}}{{request.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
+                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
                     {% endif %}
                 </a>
             {% endif %}
@@ -93,6 +93,9 @@
                     <li><a href="{% url 'payments' %}">Payments</a></li>
                     <br>
                     <li><a href="{% url 'reserve' %}">Reserve</a></li>
+                    {% endif %}
+                    {% if request.user|has_group:"Admin" %} 
+                    <li><a href="{% url 'staff' %}">Staff</a></li>
                     {% endif %}
                     <br>
                     <li><a href="{% url 'reservations' %}">Reservations</a></li>

@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import redirect, render
@@ -28,7 +29,7 @@ def index(request):
     
     try:
         customer =  Customer.objects.get(user__id = request.user.id)
-        my_reservation = Reservation.objects.filter(customer__customer_id=customer.customer_id).first()
+        my_reservation = Reservation.objects.filter(customer__customer_id=customer.customer_id).latest('reservation_date_time')
     except Customer.DoesNotExist:
         customer = None
         my_reservation = None
@@ -41,7 +42,10 @@ def index(request):
         except Room.DoesNotExist :
             my_room = None
         
-        my_checkin = CheckIn.objects.filter(reservation__customer__customer_id=customer.customer_id).first()
+        try:
+            my_checkin = CheckIn.objects.filter(reservation__customer__customer_id=customer.customer_id).latest('reservation__reservation_date_time')
+        except CheckIn.DoesNotExist:
+            my_checkin =None
     
     if total_num_reservations == 0:
         last_reserved_by = Reservation.objects.none()
@@ -110,21 +114,8 @@ def reserve(request):
                     _user.last_name = _last_name
                     _user.sex = _sex
                     _user.save() 
-
-                    customer = Customer(
-                        first_name=_first_name,
-                        middle_name=_middle_name,
-                        last_name=_last_name,
-                        email_address=_email,
-                        contact_no=_contact_no,
-                        address=_address,
-                        sex=_sex,
-                        user = _user,
-                    )
-                    customer.save()
-                elif _first_name == _user.first_name and _last_name == _user.last_name:
-                    customer = Customer.objects.filter(user=_user).first()
-                else:
+                
+                if  _first_name != _user.first_name and _last_name != _user.last_name:
                     errorUserName = "Username is already taken."
                     return render(
                         request,
@@ -135,6 +126,21 @@ def reserve(request):
                             'error': errorUserName,
                         }
                     )
+        
+                try:
+                    customer = Customer.objects.get(user__id=_user.id)
+                except Customer.DoesNotExist:
+                    customer = Customer(
+                        first_name=_first_name,
+                        middle_name=_middle_name,
+                        last_name=_last_name,
+                        email_address=_email,
+                        contact_no=_contact_no,
+                        address=_address,
+                        sex=_sex,
+                        user = _user,
+                    )
+                    customer.save() 
 
 
                 reservation = Reservation(
@@ -492,6 +498,30 @@ def change_password(request):
     return render(request, 'hotelSystem/change_password.html', {
         'form': form
     })
+    
+@login_required(login_url='login')
+def staff(request):
+    if not request.user.groups.filter(name='Staff').exists():
+        return HttpResponseRedirect(reverse("index"))
+    
+    if request.method == 'POST':
+        newStaffIds = request.POST.getlist('isStaff')
+        newStaff = User.objects.filter(id__in=newStaffIds)
+        oldStaff =User.objects.filter(groups__name='Staff')    
+        for x in oldStaff:
+            if x not in newStaff:
+                x.groups.remove(Group.objects.get(name='Staff'))
+        for user in newStaff:
+            if user in oldStaff:
+                continue
+            else:
+                user.groups.add(Group.objects.get(name='Staff'))
+            
+    users = User.objects.order_by('first_name')
+    data = {
+        'users': users,
+    }
+    return render(request, "hotelSystem/staff.html", data)
 
 @login_required(login_url='login')  
 def handler400(request, exception):

@@ -23,6 +23,7 @@ urlpatterns = [
     path("rooms/<int:roomID>", views.room_view, name="room_view"),
     path("payments", views.payments, name="payments"),
     path("profile", views.profile, name="profile"),
+    path("staff", views.staff, name="staff"),
     path("change_password", views.change_password, name="change_password"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),

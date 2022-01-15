@@ -1,0 +1,44 @@
+{% extends "hotelSystem/layout.html" %} 
+{% load static %}
+{% block title %}
+{% load custom_tags %} 
+{{ title }} 
+{% endblock %} 
+
+{% block additional-static %}
+    <link href="{% static 'hotelSystem/css/customers.css' %}" rel="stylesheet">
+    <link href="{% static 'hotelSystem/css/checkbox.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'hotelSystem/js/search.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <h1>Edit Staffs</h1>
+    <br>
+    <main class="leaderboard__profiles">
+        <form class="my_form" method="post" action"">
+            {% csrf_token %}
+            <div class="form-grid">
+                <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+                <input id="signupSubmit" class="submit-btn" type="submit" value="Save">
+            </div>
+            {% for c in users %}
+                <div>
+                    <article class="leaderboard__profile">
+                        {% if c.get_sex_display == 'Male'%}
+                            <img src="https://avatars.dicebear.com/api/micah/{{c.first_name}}{{c.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                        {% else %}
+                            <img src="https://avatars.dicebear.com/api/micah/{{c.first_name}}{{c.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture">
+                        {% endif %}
+                        <span class="leaderboard__name">{{c.first_name}} {{c.last_name}}</span>
+                        {% if c|has_group:"Staff" %} 
+                            <span id="checked_in" class="leaderboard__value"><input type="checkbox" value="{{c.id}}" name="isStaff" class="plus-minus" checked></span>  
+                        {% else %}
+                            <span id="checked_in" class="leaderboard__value"><input type="checkbox" value="{{c.id}}" name="isStaff" class="plus-minus"></span>
+                        {% endif %}
+                    </article>
+                </div>
+            {% endfor %}   
+            
+        </form>
+    </main>
+{% endblock %}
