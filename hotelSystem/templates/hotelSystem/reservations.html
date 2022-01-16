@@ -9,12 +9,13 @@
   <script src="{% static 'hotelSystem/js/modalRedirect.js' %}"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
+  <script type="text/javascript" src="{% static 'hotelSystem/js/search.js' %}"></script>
 {% endblock %}
 
 {% block body %}
   <h1>Reservations</h1>
   <br>
-
+  <input type="text" id="myInput" placeholder="Search for reservations..." title="Type in a name">
   <div class="modal-container" id="modal-opened">
     <form class="modal"  action="{% url 'checkin'%}" method="post">
       {% csrf_token %} 
@@ -34,7 +35,7 @@
     <div class="reserveTable">
       <ul class="responsive-table">
         <li class="table-header">
-          <div class="col col-1">Reservation Id</div>
+          <div class="col col-1 leaderboard__name">Reservation Id</div>
           <div class="col col-2">Customer</div>
           <div class="col col-3">No of Children</div>
           <div class="col col-4">No of Adults</div>

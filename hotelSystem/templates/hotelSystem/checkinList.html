@@ -8,6 +8,7 @@
 {% block additional-static %}
   <script src="{% static 'hotelSystem/js/modalRedirect.js' %}"></script>
   <script src="{% static 'hotelSystem/js/commaNumbers.js' %}"></script>
+  <script type="text/javascript" src="{% static 'hotelSystem/js/search.js' %}"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
 {% endblock %}
@@ -15,6 +16,8 @@
 {% block body %}
   <h1>{{title}}</h1>
   <br>
+
+  <input type="text" id="myInput" placeholder="Search for check-ins..." title="Type in a name">
 
   <div class="modal-container" id="modal-opened">
     <form class="modal" action="{% url 'checkout'%}" method="post">
@@ -28,6 +31,7 @@
       <input type="hidden" class="modalhidden" name="checkin_id" value="">
       <input class="modal_btn" type="submit" value="Confirm &rarr;">
       <a href="#modal-closed" class="link-2" id="frontend"></a>
+      
     </form>
   </div>
 
@@ -47,7 +51,7 @@
       </li>
       {% for c in checkIns %}
           <li class="table-row">
-              <a class="col col-1" data-label="Check-In" href="{% url 'checkin_view' c.id %}">
+              <a class="col col-1 leaderboard__name" data-label="Check-In" href="{% url 'checkin_view' c.id %}">
                 {{c}}
               </a>
               <a class="col col-2" data-label="Reservation" href="{% url 'reservations_view' c.reservation.reservation_id %}">

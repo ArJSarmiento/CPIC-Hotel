@@ -264,3 +264,13 @@ body {
 .comma:not(:first-child):before {
   content: ", ";
 }
+
+#myInput{
+  outline: 0;
+  width: 100%;
+  padding: 1rem 1.6rem;
+  appearance: none;
+  border-radius: 20px;
+  border: 1px solid black;
+  font-family: 'Lato';
+}

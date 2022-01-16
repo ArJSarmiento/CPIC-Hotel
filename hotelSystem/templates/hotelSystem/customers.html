@@ -6,12 +6,14 @@
 
 {% block additional-static %}
     <link href="{% static 'hotelSystem/css/customers.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'hotelSystem/js/search.js' %}"></script>
 {% endblock %}
 
 {% block body %}
     <h1>Guests</h1>
     <br>
     <main class="leaderboard__profiles">
+        <input type="text" id="myInput" placeholder="Search for customers..." title="Type in a name">
         {% for c in reservations %}
             <a href="{% url 'customer_view' c.customer_id %}">
                 <article class="leaderboard__profile">

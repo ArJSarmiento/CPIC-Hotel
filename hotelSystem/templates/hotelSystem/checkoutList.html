@@ -7,15 +7,17 @@
 
 {% block additional-static %}
   <script src="{% static 'hotelSystem/js/commaNumbers.js' %}"></script>
-
+  <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
   <link href="{% static 'hotelSystem/css/table.css' %}" rel="stylesheet">
+  <script type="text/javascript" src="{% static 'hotelSystem/js/search.js' %}"></script>
 {% endblock %}
 
 {% block body %}
   <h1>{{title}}</h1>
   <br>
-  
+  <input type="text" id="myInput" placeholder="Search for check-outs..." title="Type in a name">
+
   <div class="reserveTable">
     <ul class="responsive-table">
       <li class="table-header">
@@ -28,10 +30,10 @@
       </li>
       {% for c in checkOuts %}
           <li class="table-row">
-              <a class="col col-1" data-label="Check-Out ID" href="{% url 'checkout_view' c.id %}">
+              <a class="col col-1 " data-label="Check-Out ID" href="{% url 'checkout_view' c.id %}">
                 {{c.id}}
               </a>
-              <a class="col col-2" data-label="Related Check-in" href="{% url 'checkin_view' c.check_in.id %}" >
+              <a class="col col-2 leaderboard__name" data-label="Related Check-in" href="{% url 'checkin_view' c.check_in.id %}" >
                 {{c.check_in}}
               </a>
               <div class="col col-3" data-label="Stay Duration">
