@@ -502,7 +502,7 @@ def change_password(request):
     
 @login_required(login_url='login')
 def staff(request):
-    if not request.user.groups.filter(name='Staff').exists():
+    if not request.user.groups.filter(name='Admin').exists():
         return HttpResponseRedirect(reverse("index"))
     
     if request.method == 'POST':
@@ -513,9 +513,7 @@ def staff(request):
             if x not in newStaff:
                 x.groups.remove(Group.objects.get(name='Staff'))
         for user in newStaff:
-            if user in oldStaff:
-                continue
-            else:
+            if user not in oldStaff:
                 user.groups.add(Group.objects.get(name='Staff'))
             
     users = User.objects.order_by('first_name')
