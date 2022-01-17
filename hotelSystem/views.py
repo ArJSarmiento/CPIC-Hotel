@@ -316,7 +316,7 @@ def checkins(request):
     if checkIns.count() == 0:
         return empty(request, 'No check-ins found.', "There are no check-ins to display.")
     
-    page_title = "Check-In List"  # For page title as well as heading
+    page_title = "Check-in List"  # For page title as well as heading
     checkouts = CheckOut.objects.all()
     checkIncheckout = [x.check_in for x in checkouts ]
     
@@ -334,7 +334,7 @@ def checkin_view(request,checkinID):
     if not request.user.groups.filter(name='Staff').exists() and my_checkin.reservation.customer.user.id != request.user.id:
             return HttpResponseRedirect(reverse("index")) 
         
-    title =  "Check-In No. " + str(my_checkin.id)
+    title =  "Check-in No. " + str(my_checkin.id)
     try:
         checkout=CheckOut.objects.get(check_in__id = checkinID)
     except CheckOut.DoesNotExist:
@@ -380,13 +380,13 @@ def checkouts(request):
         try:
             customer =  Customer.objects.get(user__id = request.user.id)
         except Customer.DoesNotExist:
-            return empty(request, 'No Check-Outs found.', "There are no check-outs to display.")
+            return empty(request, 'No Checkouts found.', "There are no checkouts to display.")
         my_checkouts = CheckOut.objects.filter(check_in__reservation__customer__customer_id=customer.customer_id).order_by('-check_out_date_time')
         
     if my_checkouts.count() == 0:
-        return empty(request, 'No Check-Outs found.', "There are no check-outs to display.")
+        return empty(request, 'No Checkouts found.', "There are no checkouts to display.")
     
-    title = "Check-Out List"  # For page title as well as heading
+    title = "Checkout List"  # For page title as well as heading
    
     data = {
         'title': title,
@@ -400,7 +400,7 @@ def checkout_view(request,checkoutID):
     if not request.user.groups.filter(name='Staff').exists() and my_checkout.check_in.reservation.customer.user.id != request.user.id:
             return HttpResponseRedirect(reverse("index")) 
         
-    title = "Check-Out No. " + str(my_checkout.id)
+    title = "Checkout No. " + str(my_checkout.id)
     data = {
         'title': title,
         'my_checkout': my_checkout

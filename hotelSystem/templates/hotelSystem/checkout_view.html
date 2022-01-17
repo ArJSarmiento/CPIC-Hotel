@@ -17,9 +17,9 @@
     <div class="reserveTable">
       <ul class="responsive-table">
         <li class="table-header">
-            <div class="col col-1">Check-In</div>
-            <div class="col col-2">Check-In Date Time</div>
-            <div class="col col-3">Check-Out Date Time</div>
+            <div class="col col-1">Check-in</div>
+            <div class="col col-2">Check-in Date Time</div>
+            <div class="col col-3">Checkout Date Time</div>
             <div class="col col-4">Stay Duration</div>
             <div class="col col-5">Rooms</div>
             <div class="col col-6">Total Amount</div>
@@ -29,13 +29,13 @@
         </li>
         
         <li class="table-row">
-            <a  class="col col-1" data-label="Check-In" href="{% url 'checkin_view' my_checkout.check_in.id %}">
+            <a  class="col col-1" data-label="Check-in" href="{% url 'checkin_view' my_checkout.check_in.id %}">
                 {{my_checkout.check_in}} 
             </a>
-            <div class="col col-2" data-label="Check-In Date Time">
+            <div class="col col-2" data-label="Check-in Date Time">
                 {{my_checkout.check_in.check_in_date_time}} 
             </div>
-            <div class="col col-3" data-label="Check-Out Date Time">
+            <div class="col col-3" data-label="Checkout Date Time">
                 {{my_checkout.check_out_date_time}}  
             </div>
             <div class="col col-4" data-label="Stay Duration">{{my_checkout.stay_duration|duration}}</div>

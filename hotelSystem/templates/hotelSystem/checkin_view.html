@@ -20,7 +20,7 @@
       <form class="modal" action="{% url 'checkout'%}" method="post">
         {% csrf_token %} 
         <div class="modal__details">
-          <h1 class="modal__title">Confirm Check-out</h1>
+          <h1 class="modal__title">Confirm Checkout</h1>
         </div>
         <p class="modal__text">
           Are you sure you want to check out this guest?
@@ -70,7 +70,7 @@
               {% else %}
                 <a class="col col-8 checkInBtn" id="modal-closed" data-id="{{my_checkin.id}}" data-path="checkout" data-label="Check Out?" href="#modal-opened">
                   <span>
-                      Checkout
+                      Check out
                   </span> 
                 </a>
               {% endif %}
