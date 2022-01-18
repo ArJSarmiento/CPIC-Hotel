@@ -196,7 +196,21 @@
 }
 
 .form-grid{
-display: grid;
-grid-template-columns: 3fr 1fr;
-gap: 5%;
+
+  display: grid;
+
+  grid-template-columns: 3fr 1fr;
+
+  gap: 5%;
+}
+
+.adminLink{
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline;
+  padding: 0px 7%;
+}
+
+.adminLink a:hover{
+  font-weight: 700;
 }

@@ -13,6 +13,12 @@
 
 {% block body %}
     <h1>Edit Staffs</h1>
+    {% if request.user.is_staff %}
+    <br>
+        <div class="adminLink">
+            <a href="{% url 'admin:index' %}">Open Admin Panel</a>
+        </div>
+    {% endif %}
     <br>
     <main class="leaderboard__profiles">
         <form class="my_form" method="post" action"">

@@ -24,6 +24,9 @@ handler403 = 'hotelSystem.views.handler403'
 handler404 = 'hotelSystem.views.handler404'
 handler500 = 'hotelSystem.views.handler500'
 
+admin.site.site_header = 'Hotel Admin Panel'
+admin.site.site_title = 'Hotel Admin Panel'
+
 sitemaps = {
     'static': StaticViewSitemap,
 }
