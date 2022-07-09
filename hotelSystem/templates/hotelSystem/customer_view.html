@@ -15,9 +15,9 @@
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
               {% if customer.get_sex_display == 'Male'%}
-                  <img src="https://avatars.dicebear.com/api/micah/{{customer.user.first_name}}{{customer.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture"class="rounded-circle" width="150">
+                  <img src="https://avatars.dicebear.com/api/micah/{{customer.first_name}}{{customer.last_name}}.svg?hair[]=fonze&facialHairProbability=0&earringsProbability=0&baseColor[]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture"class="rounded-circle" width="150">
               {% else %}
-                  <img src="https://avatars.dicebear.com/api/micah/{{customer.user.first_name}}{{customer.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture" width="150">
+                  <img src="https://avatars.dicebear.com/api/micah/{{customer.first_name}}{{customer.last_name}}.svg?hair[]=full,pixie&facialHairProbability=0&baseColor[]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}" class="leaderboard__picture" width="150">
               {% endif %}
               
               <div class="mt-3">

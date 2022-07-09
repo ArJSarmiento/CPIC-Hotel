@@ -66,9 +66,9 @@
             {% if request.user.is_authenticated %}  
                 <a class="profile" href="{% url 'profile' %}""> 
                     {% if request.user.get_sex_display == 'Male'%}
-                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?hair[]=fonze&options[facialHairProbability]=0&options[earringsProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
+                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?hair[]=fonze&facialHairProbability=0&earringsProbability=0&baseColor[]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
                     {% else %}
-                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?options[hair]=full&options[hair]=pixie&options[facialHairProbability]=0&options[baseColor]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
+                        <img src="https://avatars.dicebear.com/api/micah/{{request.user.first_name}}{{request.user.last_name}}.svg?hair[]=full,pixie&facialHairProbability=0&baseColor[]=apricot" alt="Not Found" onerror=this.src="{% static 'hotelSystem/img/staff.png' %}">
                     {% endif %}
                 </a>
             {% endif %}
