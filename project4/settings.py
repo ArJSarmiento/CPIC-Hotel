@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import django_heroku
 import os
+import environ
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +25,7 @@ PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'hotelSystem/static/hotelSystem
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '13kl@xtukpwe&xj2xoysxe9_6=tf@f8ewxer5n&ifnd46+6$%8'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -80,11 +85,21 @@ WSGI_APPLICATION = 'project4.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'production': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': 3306,
+    },
 }
+
+DATABASES['default'] = DATABASES['dev' if DEBUG else 'production']
 
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=600)
@@ -110,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-PWA_APP_DEBUG_MODE = False
+# PWA_APP_DEBUG_MODE = False
 PWA_APP_NAME = 'CPIC Hotel'
 PWA_APP_DESCRIPTION = "Hotel Reservation System"
 PWA_APP_THEME_COLOR = '#212121'
