@@ -114,7 +114,7 @@ class Room(models.Model):
     display_facility.short_description = 'Facilities'
 
     def get_absolute_url(self):
-        return reverse('room-detail', args=[self.room_no])
+        return "/rooms/%s" % self.room_no
 
     def save(self, *args, **kwargs):  # Overriding default behavior of save
         self.availability = 0 if self.reservation else 1
