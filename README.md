@@ -6,7 +6,7 @@ A Hotel Management and Reservation System for the Hotel and Restaurant Services 
 ## For Linux/Mac
 ### Installing venv 
 ```shell 
-sudo apt-get install python3.6-venv
+sudo apt-get install python3.8-venv
 ```
 ### Creating virtual env
 ```shell 
