@@ -1,4 +1,4 @@
-# Hotel Management and Reservation System
+# CPIC Hotel
 A Hotel Management and Reservation System for the Hotel and Restaurant Services Department of Christian Polytechnic Institute of Catanduanes.
 
 # Setup:
