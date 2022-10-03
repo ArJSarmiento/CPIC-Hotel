@@ -90,12 +90,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
     'production': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django_psdb_engine',
         'NAME': env('DB_NAME'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': 3306,
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'ssl': {'ca': env('MYSQL_ATTR_SSL_CA')
+                    }
+            }
     },
 }
 
