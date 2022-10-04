@@ -30,7 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = False
-ALLOWED_HOSTS = ['cpic-hotel.herokuapp.com', '198.211.99.20', 'localhost', '127.0.0.1',] 
+ALLOWED_HOSTS = ['*'] 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Application definition
