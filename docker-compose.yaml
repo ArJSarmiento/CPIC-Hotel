@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  hotel:
+    volumes:
+      - static:/static
+    env_file:
+    - ./project4/.env
+    build: 
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      VIRTUAL_HOST: cpic-hotel.local
+      VIRTUAL_PORT: 8080
+    expose:
+      - 8080
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
+
+volumes:
+  static:
