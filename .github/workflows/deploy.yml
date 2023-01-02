@@ -24,8 +24,7 @@ jobs:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.SSHKEY }}
           username: ${{ secrets.USERNAME }}
-          script_stop: true
-          command_timeout: 200m
+          port: ${{ secrets.PORT }}
           script: |
             cd /srv/www/cpichotel.com
             git pull
