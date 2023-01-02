@@ -16,20 +16,17 @@ on:
 #2
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main' 
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Deploy to Digital Ocean droplet via SSH action
+      - name: Deploy CI/CD Pipeline
         uses: appleboy/ssh-action@v0.1.3
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          username: ${{ secrets.USERNAME }}
           script_stop: true
           command_timeout: 200m
-          script: /
+          script: |
             cd /srv/www/cpichotel.com
             git pull
             docker compose build --force --no-cache --compress
