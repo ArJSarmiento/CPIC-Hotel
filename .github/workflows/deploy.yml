@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy CI/CD Pipeline
-        uses: appleboy/ssh-action@v0.1.3
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.HOST }}
-          key: ${{ secrets.SSHKEY }}
           username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSHKEY }}
           port: ${{ secrets.PORT }}
           script: |
             cd /srv/www/cpichotel.com
