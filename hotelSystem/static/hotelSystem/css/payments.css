@@ -54,19 +54,19 @@
   padding: 0 10px;
 }
 
-.row{
-    margin:0px;
-    font-family: var(--font-text);
+.row {
+  margin: 0px;
+  font-family: var(--font-text);
 }
 
-.text-right span{
-    color: var(--myDark);
+.text-right span {
+  color: var(--myDark);
 }
 
-.lastLink{
-    color: var(--thirdcolor) !important;
+.lastLink {
+  color: var(--thirdcolor) !important;
 }
 
-.lastLink:hover{
+.lastLink:hover {
   font-weight: bold;
 }

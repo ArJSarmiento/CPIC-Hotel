@@ -1,30 +1,25 @@
-.form-control
-{
-    width:250px;
+.form-control {
+  width: 250px;
 }
 
-.reserved_form form
-{
-    width:100%;
+.reserved_form form {
+  width: 100%;
 }
 
-.col-auto
-{
-    margin-right: 20px;
+.col-auto {
+  margin-right: 20px;
 }
 
-#reserveSubmit:disabled
-{
-    cursor: auto;    
-    color:grey;
-    background-color: transparent;
-    border-color: grey;
+#reserveSubmit:disabled {
+  cursor: auto;
+  color: grey;
+  background-color: transparent;
+  border-color: grey;
 }
 
-#reserveSubmit:disabled:hover
-{
-    cursor: auto;
-    color:grey;
-    background-color: transparent;
-    border-color: grey;
+#reserveSubmit:disabled:hover {
+  cursor: auto;
+  color: grey;
+  background-color: transparent;
+  border-color: grey;
 }

@@ -1,17 +1,16 @@
-
 .section {
-    position: relative;
-    font-family: var(--font-text);
+  position: relative;
+  font-family: var(--font-text);
 }
 .gray-bg {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 img {
-    vertical-align: middle;
-    border-style: none;
+  vertical-align: middle;
+  border-style: none;
 }
 /* About Me 
 ---------------------*/
@@ -40,7 +39,6 @@ img {
 }
 .about-text p mark {
   font-weight: 600;
-
 }
 
 .about-list {
@@ -50,7 +48,6 @@ img {
   padding: 5px 0;
 }
 .about-list label {
-
   font-weight: 600;
   width: 88px;
   margin: 0;
@@ -101,17 +98,20 @@ img {
   margin: 0;
 }
 mark {
-    background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
-    background-size: 100% 3px;
-    background-repeat: no-repeat;
-    background-position: 0 bottom;
-    background-color: transparent;
-    padding: 0;
-    color: currentColor;
+  background-image: linear-gradient(
+    rgba(252, 83, 86, 0.6),
+    rgba(252, 83, 86, 0.6)
+  );
+  background-size: 100% 3px;
+  background-repeat: no-repeat;
+  background-position: 0 bottom;
+  background-color: transparent;
+  padding: 0;
+  color: currentColor;
 }
 
-.container{
-  display:block !important;
+.container {
+  display: block !important;
   height: auto !important;
   padding: 5%;
 }
